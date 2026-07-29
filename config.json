@@ -1,0 +1,34 @@
+{
+  "data": {
+    "dataset_name": "California Housing",
+    "csv_path": "data/california_housing.csv",
+    "sample_prediction_path": "data/sample_houses.csv",
+    "target_column": "median_house_value",
+    "test_size": 0.25,
+    "random_state": 42
+  },
+  "model": {
+    "type": "random_forest"
+  },
+  "outputs": {
+    "model_path": "models/house_price_model.joblib",
+    "metrics_path": "outputs/metrics.json",
+    "predictions_path": "outputs/predictions.csv",
+    "predictions_bilingual_path": "outputs/predictions_bilingual.csv",
+    "prediction_output_path": "outputs/new_predictions.csv",
+    "prediction_bilingual_output_path": "outputs/new_predictions_bilingual.csv",
+    "model_comparison_path": "outputs/model_comparison.csv",
+    "plot_path": "outputs/predicted_vs_actual.png",
+    "feature_importance_path": "outputs/feature_importance.png",
+    "report_path": "outputs/report.html"
+  },
+  "presentation": {
+    "language": "bilingual",
+    "field_descriptions_path": "config/field_descriptions.json",
+    "price_unit": {
+      "source_unit": "100k_usd",
+      "usd_to_rmb": 6.6,
+      "display_unit": "10k_rmb"
+    }
+  }
+}

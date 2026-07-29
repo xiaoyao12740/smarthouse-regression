@@ -1,0 +1,12 @@
+.git
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.streamlit
+outputs/*.png
+outputs/*.html
+outputs/predictions.csv
+outputs/predictions_bilingual.csv
+outputs/new_predictions.csv
+outputs/new_predictions_bilingual.csv
