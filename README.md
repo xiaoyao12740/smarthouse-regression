@@ -1,231 +1,30 @@
-# 02 - SmartHouse Regression / Intelligent House Price Prediction
+# SmartHouse Regression / Intelligent House Price Prediction
 
-这是第二个正式学习项目：从“分类问题”进入“回归问题”。第一个项目回答“它是什么”，本项目回答“它是多少”。
+SmartHouse Regression is a lightweight machine learning application for tabular regression and business-style house price prediction. It combines data preparation, model comparison, optimized model persistence, bilingual field presentation, unit conversion, explainability, and a Streamlit inference interface.
 
-This is the second portfolio project: moving from classification to regression. The first project answers "what is it"; this project answers "how much is it".
+SmartHouse Regression 是一个面向表格回归预测场景的轻量级机器学习应用，覆盖数据准备、模型比较、模型压缩保存、双语字段展示、单位换算、预测解释和 Streamlit 推理页面。
 
-## 项目定位 / Project Positioning
+## Positioning / 项目定位
 
-SmartHouse Regression 是一个基于 California Housing 数据集的房价回归预测演示系统。它不声称预测真实中国房价，而是在美国公开教学数据基础上训练回归模型，并为中文读者提供人民币换算展示。
+The project is built on the California Housing dataset and demonstrates how a regression model can be packaged into a usable prediction system. It does not claim to predict real Chinese housing prices. RMB values are provided only as a presentation conversion using a fixed assumption: `1 USD = 6.6 RMB`.
 
-SmartHouse Regression is a house price regression demo based on the California Housing dataset. It does not claim to predict real Chinese house prices. It trains regression models on a public U.S. teaching dataset and provides RMB conversion for easier presentation to Chinese readers.
+本项目基于 California Housing 数据集，展示如何将回归模型封装为可交互的预测系统。项目不声称预测真实中国房价；人民币结果仅用于展示换算，固定假设为 `1 USD = 6.6 RMB`。
 
-## 项目目标 / Goals
+## Highlights / 项目亮点
 
-- 理解回归任务和分类任务的区别
-- 使用房屋特征预测房价
-- 对比线性模型和非线性模型
-- 学习 MAE、RMSE、R2 等回归评价指标
-- 形成可复用的机器学习工程结构
-- 将训练好的模型包装成本地可交互 Web 应用
+- Config-driven regression pipeline
+- CSV data preparation and sample prediction data
+- Median imputation and feature scaling
+- Linear Regression, Ridge, and Random Forest comparison
+- Optimized Random Forest model size: about `10.02 MB`
+- Streamlit prediction interface
+- Income unit conversion before inference
+- USD and RMB display conversion after prediction
+- Feature importance explanation with share percentages
+- Downloadable CSV and transparent SVG report/chart assets
+- Docker configuration for local deployment
 
-## 技术栈 / Tech Stack
-
-- Python
-- pandas / numpy
-- scikit-learn
-- matplotlib
-- joblib
-- Streamlit
-- Docker
-
-## 当前模型 / Models
-
-- `linear_regression`
-- `ridge`
-- `random_forest`
-
-默认使用 `random_forest`，可以在 `config.json` 中修改。
-
-Default model is `random_forest`. You can change it in `config.json`.
-
-当前版本会自动比较三个模型，并输出：
-
-The current version automatically compares three models and exports:
-
-```text
-outputs/model_comparison.csv
-```
-
-## 项目结构 / Project Structure
-
-```text
-02-smarthouse-regression/
-  config.json
-  requirements.txt
-  data/
-    california_housing.csv
-    sample_houses.csv
-  models/
-    house_price_model.joblib
-  outputs/
-    metrics.json
-    predictions.csv
-    new_predictions.csv
-    predicted_vs_actual.png
-    feature_importance.png
-    report.html
-  src/
-    data_loader.py
-    preprocessing.py
-    models.py
-    evaluator.py
-    reporter.py
-    train.py
-    predict.py
-```
-
-## 运行训练 / Train
-
-在 `ML-DL-Projects` 总目录运行：
-
-Run from the `ML-DL-Projects` root folder:
-
-```powershell
-.\.venv\Scripts\python.exe .\02-smarthouse-regression\src\train.py
-```
-
-## 运行预测 / Predict
-
-训练完成后，使用示例房屋数据预测：
-
-After training, predict with the sample house records:
-
-```powershell
-.\.venv\Scripts\python.exe .\02-smarthouse-regression\src\predict.py
-```
-
-也可以指定自己的 CSV：
-
-You can also pass your own CSV:
-
-```powershell
-.\.venv\Scripts\python.exe .\02-smarthouse-regression\src\predict.py --input path\to\houses.csv
-```
-
-## 本地网页 / Local Web App
-
-训练完成后，可以启动 Streamlit 页面：
-
-After training, start the Streamlit app:
-
-```powershell
-.\.venv\Scripts\streamlit.exe run .\02-smarthouse-regression\app.py
-```
-
-页面包含：
-
-- 手动输入房屋区域特征
-- 收入单位选择：万美元/年、美元/年、美元/月、人民币/年、人民币/月
-- 自动把收入换算成模型需要的 `MedInc`，即 `万美元/年`
-- 展示原始预测值：`十万美元 / 100k USD`
-- 展示美元估算值
-- 展示人民币估算值：按固定假设 `1 USD = 6.6 RMB`
-- 展示当前模型指标和模型比较结果
-- 展示字段中英文说明
-- 展示随机森林特征重要性，提供轻量级预测解释
-
-如果第一个项目也在运行，建议给第二个项目指定 `8502`：
-
-If the first project is also running, use `8502` for this second project:
-
-```powershell
-.\.venv\Scripts\streamlit.exe run .\02-smarthouse-regression\app.py --server.port 8502
-```
-
-推荐访问端口：
-
-Recommended local port:
-
-```text
-http://localhost:8502
-```
-
-## Docker 运行 / Docker Run
-
-构建镜像：
-
-Build image:
-
-```powershell
-docker build -t smarthouse-regression .
-```
-
-启动容器：
-
-Run container:
-
-```powershell
-docker run --rm -p 8501:8501 smarthouse-regression
-```
-
-为了避免和第一个项目冲突，推荐把第二个项目映射到本机 `8502`：
-
-To avoid conflicts with the first project, map this second project to local port `8502`:
-
-```powershell
-docker run --rm -p 8502:8501 smarthouse-regression
-```
-
-停止方式：
-
-Stop with `Ctrl+C` in the running terminal. Because `--rm` is used, the container is removed automatically after stopping.
-
-## 怎么看结果 / How To Read Results
-
-- `MAE`：平均预测误差，越低越好。
-- `RMSE`：会更重地惩罚大错误，越低越好。
-- `R2`：模型解释能力，越接近 1 越好。
-- `predicted_vs_actual.png`：点越靠近红线，预测越准确。
-- `feature_importance.png`：展示随机森林认为最重要的房屋特征。
-
-## 双语展示 / Bilingual Presentation
-
-本项目保留原始字段名用于训练，例如 `MedInc`、`AveRooms`、`HouseAge`。同时通过 `config/field_descriptions.json` 给报告、图表和展示版 CSV 增加中文名称与中英文说明。
-
-The project keeps original field names for training, such as `MedInc`, `AveRooms`, and `HouseAge`. For human-facing outputs, `config/field_descriptions.json` adds Chinese names and bilingual descriptions to reports, charts, and display CSV files.
-
-这样做的好处是：
-
-- 不破坏原始数据和模型代码。
-- 中国读者可以直接看懂输出结果。
-- 未来如果用户上传中文业务数据，只需要调整字段词典和配置。
-
-Generated bilingual outputs:
-
-- `outputs/predictions_bilingual.csv`
-- `outputs/new_predictions_bilingual.csv`
-- `outputs/report.html`
-
-Price unit note:
-
-- The original California Housing target uses `100,000 USD` as the unit.
-- The original `MedInc` feature means annual median income in `10,000 USD`.
-- For Chinese readers, this project also displays prediction results in `万元人民币 / 10k RMB`.
-- The conversion uses a fixed showcase assumption: `1 USD = 6.6 RMB`.
-- This is only for project demonstration, not real-time exchange-rate calculation.
-
-Input unit note:
-
-- Users can enter income as annual/monthly USD or RMB.
-- The app converts it into the model's required `MedInc` unit before prediction.
-- Changing the display/input unit does not break the model because the conversion happens before inference.
-
-## Current Result / 当前结果
-
-After optimizing Random Forest depth and enabling model compression:
-
-- Best model: `random_forest`
-- MAE: `0.3331`
-- RMSE: `0.5078`
-- R2: `0.8051`
-- Model size: about `10.02 MB`
-
-The previous unbounded Random Forest model was about `155.35 MB`. The optimized version is much smaller while keeping nearly the same R2 score.
-
-优化前未限制树深度的随机森林模型约 `155.35 MB`。优化后模型约 `10.02 MB`，R2 基本保持稳定，更适合作品展示和后续部署。
-
-## Model Comparison / 模型比较
+## Results / 当前结果
 
 | Model | MAE | RMSE | R2 |
 | --- | ---: | ---: | ---: |
@@ -233,37 +32,106 @@ The previous unbounded Random Forest model was about `155.35 MB`. The optimized 
 | Ridge Regression | 0.5297 | 0.7356 | 0.5911 |
 | Linear Regression | 0.5297 | 0.7356 | 0.5911 |
 
-当前选择 Random Forest，因为它在 R2 上明显优于两个线性模型，同时优化后模型体积约 10MB，适合本地展示和 Docker 部署。
+Random Forest is selected because it provides a much stronger R2 score while remaining compact enough for local deployment after optimization.
 
-Random Forest is selected because it has a clearly higher R2 score than the two linear models, while the optimized model size remains around 10MB, suitable for local demos and Docker deployment.
+## Application Features / 应用能力
 
-## Screenshots / 截图位置
+- Manual feature input for house area records
+- Median income unit selector:
+  - 10k USD/year
+  - USD/year
+  - USD/month
+  - RMB/year
+  - RMB/month
+- Automatic conversion into the model unit: `MedInc = 10k USD/year`
+- Prediction output in:
+  - raw model unit: `100k USD`
+  - estimated USD
+  - estimated RMB in `10k RMB`
+- Model metrics panel
+- Model comparison table
+- Bilingual field dictionary
+- Key driver ranking and importance share chart
+- Downloads:
+  - prediction CSV
+  - transparent SVG prediction summary
+  - transparent SVG feature importance bar chart
+  - transparent SVG importance share donut chart
 
-当前版本的主要视觉输出：
+## Project Structure / 项目结构
 
-Current visual outputs:
+```text
+02-smarthouse-regression/
+  app.py
+  config.json
+  Dockerfile
+  requirements.txt
+  config/
+    field_descriptions.json
+  data/
+    california_housing.csv
+    sample_houses.csv
+  models/
+    house_price_model.joblib
+  outputs/
+    metrics.json
+    model_comparison.csv
+    report.html
+  src/
+    data_loader.py
+    preprocessing.py
+    models.py
+    evaluator.py
+    model_comparison.py
+    price_units.py
+    reporter.py
+    train.py
+    predict.py
+```
 
-- `outputs/predicted_vs_actual.png`
-- `outputs/feature_importance.png`
-- `outputs/report.html`
+## Run Locally / 本地运行
 
-Streamlit 页面可以本地启动后截图，建议截图页面包括：
+Install dependencies:
 
-Recommended screenshots after launching Streamlit:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
 
-- Prediction page / 房价预测页
-- Model page / 模型信息页
-- Field dictionary page / 字段说明页
+Train the model:
+
+```powershell
+.\.venv\Scripts\python.exe .\src\train.py
+```
+
+Start the Streamlit app:
+
+```powershell
+.\.venv\Scripts\streamlit.exe run .\app.py --server.port 8502
+```
+
+Open:
+
+```text
+http://localhost:8502
+```
+
+## Docker / 容器运行
+
+```powershell
+docker build -t smarthouse-regression .
+docker run --rm -p 8502:8501 smarthouse-regression
+```
+
+The container listens on `8501` internally and maps to local port `8502` to avoid conflicts with other local ML demos.
 
 ## Known Limits / 已知限制
 
-- 数据来自 California Housing，不代表中国真实房地产市场。
-- 人民币换算使用固定展示汇率 `1 USD = 6.6 RMB`，不是实时汇率。
-- 当前解释性使用 Random Forest feature importance，尚未引入 SHAP 等更细粒度解释工具。
-- 当前版本是单机演示应用，没有数据库、用户系统或线上监控。
+- Dataset is California Housing, not Chinese real estate data.
+- RMB conversion uses a fixed showcase assumption, not real-time exchange rates.
+- Feature importance uses Random Forest `feature_importances_`; SHAP-level explanations are not included.
+- This is a local single-user application without database, authentication, or production monitoring.
 
-## 简历表达 / Resume Line
+## Resume Summary / 简历描述
 
-> 构建 SmartHouse Regression 智能房价预测系统，支持房屋 CSV 数据读取、缺失值处理、回归模型训练、模型持久化、预测输出和可视化评估，使用 MAE、RMSE、R2 衡量模型表现。
-
-> Built SmartHouse Regression, an intelligent house price prediction system with CSV ingestion, missing-value handling, regression training, model persistence, prediction export, and visual evaluation using MAE, RMSE, and R2.
+Built SmartHouse Regression, a tabular regression prediction system with automated model comparison, optimized Random Forest persistence, bilingual field presentation, unit conversion, Streamlit inference UI, feature-importance explanation, downloadable SVG/CSV reports, and Docker deployment support.
