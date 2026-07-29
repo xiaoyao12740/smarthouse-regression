@@ -60,4 +60,5 @@ Completed:
 - Added a lightweight feature importance section to the Streamlit app.
 - Added Dockerfile and Docker ignore rules.
 - Expanded README with project positioning, business caveats, Docker usage, model comparison, screenshot guidance, and known limits.
+- Clarified that the second project should use local port `8502` when running beside the first project.
 - Confirmed the project can be treated as a v1.0 showcase version.

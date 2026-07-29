@@ -123,12 +123,20 @@ After training, start the Streamlit app:
 - 展示字段中英文说明
 - 展示随机森林特征重要性，提供轻量级预测解释
 
-默认端口：
+如果第一个项目也在运行，建议给第二个项目指定 `8502`：
 
-Default port:
+If the first project is also running, use `8502` for this second project:
+
+```powershell
+.\.venv\Scripts\streamlit.exe run .\02-smarthouse-regression\app.py --server.port 8502
+```
+
+推荐访问端口：
+
+Recommended local port:
 
 ```text
-http://localhost:8501
+http://localhost:8502
 ```
 
 ## Docker 运行 / Docker Run
@@ -147,6 +155,14 @@ Run container:
 
 ```powershell
 docker run --rm -p 8501:8501 smarthouse-regression
+```
+
+为了避免和第一个项目冲突，推荐把第二个项目映射到本机 `8502`：
+
+To avoid conflicts with the first project, map this second project to local port `8502`:
+
+```powershell
+docker run --rm -p 8502:8501 smarthouse-regression
 ```
 
 停止方式：
