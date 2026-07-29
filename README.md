@@ -1,12 +1,12 @@
 # SmartHouse Regression
 
-SmartHouse Regression is a lightweight machine learning application for tabular regression and house-price prediction demos. It turns the California Housing dataset into a complete local workflow: data preparation, model comparison, optimized model persistence, unit conversion, explainable prediction output, Streamlit inference, report export, and Docker deployment.
+SmartHouse Regression is a lightweight machine learning application for tabular regression and house-price prediction workflows. It turns the California Housing dataset into a complete local workflow: data preparation, model comparison, optimized model persistence, unit conversion, explainable prediction output, Streamlit inference, report export, and Docker deployment.
 
 SmartHouse Regression 是一个面向表格回归和房价预测演示的轻量级机器学习应用。项目基于 California Housing 数据集，完整串联了数据准备、模型对比、模型压缩保存、单位换算、预测解释、Streamlit 交互推理、报告导出和 Docker 本地部署。
 
 ## Positioning
 
-The project is designed as a portfolio-grade regression system rather than a single training script. It shows how a classical machine learning model can be packaged into a usable prediction product with clear inputs, transparent assumptions, reproducible outputs, and a deployable web interface.
+The project is designed as a reusable regression application rather than a standalone training routine. It shows how a classical machine learning model can be packaged into a usable prediction product with clear inputs, transparent assumptions, reproducible outputs, and a deployable web interface.
 
 本项目定位为一个可展示的回归预测系统，而不是单个训练脚本。它展示了如何把传统机器学习模型封装成一个可使用的预测产品：输入清晰、假设透明、输出可复现，并且可以通过网页界面部署和演示。
 
@@ -52,7 +52,7 @@ The dataset is California Housing, so the model does not claim to predict real C
 
 Random Forest is selected because it provides a much stronger R2 score while remaining compact enough for local deployment after optimization.
 
-当前版本选择 Random Forest 作为默认模型，因为它在 R2 上明显优于线性模型，并且经过压缩后仍适合本地部署和作品集展示。
+当前版本选择 Random Forest 作为默认模型，因为它在 R2 上明显优于线性模型，并且经过压缩后仍适合本地部署。
 
 ## Application Features
 
@@ -172,10 +172,4 @@ The container listens on `8501` internally and maps to local port `8502` to avoi
 - 当前数据集不是中国房地产交易数据，因此结果只能用于机器学习流程演示。
 - 人民币换算不是实时汇率，也不是金融或交易建议。
 - 特征解释使用随机森林内置重要性，适合轻量展示，但不是完整因果解释。
-- 项目以本地作品集演示为目标，暂未加入数据库、登录鉴权和生产级监控。
-
-## Resume Summary
-
-Built SmartHouse Regression, a tabular regression prediction system with automated model comparison, optimized Random Forest persistence, unit conversion, Streamlit inference UI, feature-importance explanation, downloadable SVG/CSV reports, and Docker deployment support.
-
-简历描述：构建 SmartHouse Regression 表格回归预测系统，完成自动模型对比、Random Forest 模型压缩保存、单位换算、Streamlit 推理界面、特征重要性解释、SVG/CSV 报告导出和 Docker 部署支持。
+- 项目以本地单用户应用为主，暂未加入数据库、登录鉴权和生产级监控。

@@ -3,3 +3,4 @@ __pycache__/
 .pytest_cache/
 .streamlit/
 .venv/
+PRIVATE_WORK_LOG.md
