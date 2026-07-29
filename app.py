@@ -3,8 +3,10 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from textwrap import wrap
 
 import joblib
+import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 
@@ -51,6 +53,20 @@ def format_model_name(name: str) -> str:
     return names.get(name, name)
 
 
+def convert_income_to_model_unit(amount: float, unit: str, exchange_rate: float) -> float:
+    if unit == "模型原始单位：万美元/年":
+        return amount
+    if unit == "美元/年":
+        return amount / 10000
+    if unit == "美元/月":
+        return amount * 12 / 10000
+    if unit == "人民币/年":
+        return amount / exchange_rate / 10000
+    if unit == "人民币/月":
+        return amount * 12 / exchange_rate / 10000
+    raise ValueError(f"Unsupported income unit: {unit}")
+
+
 def feature_importance_table(bundle: dict, field_descriptions: dict) -> pd.DataFrame:
     pipeline = bundle["pipeline"]
     model = pipeline.named_steps["model"]
@@ -66,7 +82,23 @@ def feature_importance_table(bundle: dict, field_descriptions: dict) -> pd.DataF
                 "重要性 / Importance": float(importance),
             }
         )
-    return pd.DataFrame(rows).sort_values("重要性 / Importance", ascending=False)
+    return pd.DataFrame(rows).sort_values("重要性 / Importance", ascending=True)
+
+
+def plot_feature_importance(importance: pd.DataFrame) -> None:
+    if importance.empty:
+        return
+
+    labels = ["\n".join(wrap(label, width=24)) for label in importance["影响因素 / Feature"]]
+    values = importance["重要性 / Importance"]
+
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    ax.barh(labels, values, color="#78bdf2")
+    ax.set_xlabel("重要性 / Importance")
+    ax.set_title("主要影响因素 / Key Drivers")
+    ax.tick_params(axis="y", labelsize=9)
+    fig.tight_layout()
+    st.pyplot(fig, use_container_width=True)
 
 
 def main() -> None:
@@ -78,12 +110,12 @@ def main() -> None:
     presentation_config = config.get("presentation", {})
     unit_config = presentation_config.get("price_unit", {})
     field_descriptions = load_field_descriptions(PROJECT_ROOT / presentation_config.get("field_descriptions_path", ""))
-    exchange_rate = unit_config.get("usd_to_rmb", 6.6)
+    exchange_rate = float(unit_config.get("usd_to_rmb", 6.6))
 
     st.title("SmartHouse AI Predictor / 智能房价预测")
     st.caption(
-        "基于 California Housing 数据集的回归预测演示。人民币结果按固定假设 "
-        f"1 USD = {exchange_rate} RMB 换算，仅用于作品展示。"
+        "基于 California Housing 数据集的回归预测演示。模型收入字段使用万美元/年，房价原始输出使用十万美元。"
+        f"人民币结果按固定假设 1 USD = {exchange_rate} RMB 换算，仅用于作品展示。"
     )
 
     model_path = PROJECT_ROOT / output_config["model_path"]
@@ -104,8 +136,12 @@ def main() -> None:
 
     with tab_predict:
         st.subheader("输入房屋区域特征 / Enter House Area Features")
+        st.info(
+            "单位换算说明：页面允许用更自然的收入单位输入，程序会自动换算成模型需要的 MedInc，"
+            "也就是“万美元/年”。房价预测结果会同时显示原始单位、美元和人民币估算。"
+        )
+
         defaults = {
-            "MedInc": 5.0,
             "HouseAge": 25.0,
             "AveRooms": 5.5,
             "AveBedrms": 1.1,
@@ -116,13 +152,38 @@ def main() -> None:
         }
 
         values = {}
+        income_col, unit_col = st.columns([2, 1])
+        with income_col:
+            income_amount = st.number_input(
+                "居民收入中位数 / Median income",
+                value=5.0,
+                min_value=0.0,
+                help="可以选择不同收入单位。程序会换算为模型字段 MedInc，即万美元/年。",
+            )
+        with unit_col:
+            income_unit = st.selectbox(
+                "收入单位 / Income unit",
+                ["模型原始单位：万美元/年", "美元/年", "美元/月", "人民币/年", "人民币/月"],
+            )
+        values["MedInc"] = convert_income_to_model_unit(income_amount, income_unit, exchange_rate)
+        st.caption(f"换算后的模型输入 MedInc = {values['MedInc']:.4f} 万美元/年")
+
         columns = st.columns(2)
-        for index, feature in enumerate(feature_columns):
+        for index, feature in enumerate([column for column in feature_columns if column != "MedInc"]):
             label = display_name(feature, field_descriptions, "bilingual")
             description = field_descriptions.get(feature, {}).get("description_zh", "")
+            unit_hint = {
+                "HouseAge": "单位：年 / years",
+                "AveRooms": "单位：间/户 / rooms per household",
+                "AveBedrms": "单位：间/户 / bedrooms per household",
+                "Population": "单位：人 / people",
+                "AveOccup": "单位：人/户 / people per household",
+                "Latitude": "单位：度 / degrees",
+                "Longitude": "单位：度 / degrees",
+            }.get(feature, "")
             with columns[index % 2]:
                 values[feature] = st.number_input(
-                    label,
+                    f"{label} | {unit_hint}",
                     value=float(defaults.get(feature, 0.0)),
                     help=description,
                 )
@@ -150,7 +211,7 @@ def main() -> None:
 
         if not importance.empty:
             st.subheader("主要影响因素 / Key Drivers")
-            st.bar_chart(importance.set_index("影响因素 / Feature"))
+            plot_feature_importance(importance)
             st.caption("这里使用随机森林的 feature_importances_，用于提供一个轻量级模型解释。")
 
     with tab_model:

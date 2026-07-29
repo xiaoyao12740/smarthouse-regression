@@ -61,4 +61,6 @@ Completed:
 - Added Dockerfile and Docker ignore rules.
 - Expanded README with project positioning, business caveats, Docker usage, model comparison, screenshot guidance, and known limits.
 - Clarified that the second project should use local port `8502` when running beside the first project.
+- Added an input unit conversion layer for median income.
+- Replaced the vertical feature-importance chart with a horizontal chart so long bilingual labels remain readable.
 - Confirmed the project can be treated as a v1.0 showcase version.

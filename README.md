@@ -116,6 +116,8 @@ After training, start the Streamlit app:
 页面包含：
 
 - 手动输入房屋区域特征
+- 收入单位选择：万美元/年、美元/年、美元/月、人民币/年、人民币/月
+- 自动把收入换算成模型需要的 `MedInc`，即 `万美元/年`
 - 展示原始预测值：`十万美元 / 100k USD`
 - 展示美元估算值
 - 展示人民币估算值：按固定假设 `1 USD = 6.6 RMB`
@@ -198,9 +200,16 @@ Generated bilingual outputs:
 Price unit note:
 
 - The original California Housing target uses `100,000 USD` as the unit.
+- The original `MedInc` feature means annual median income in `10,000 USD`.
 - For Chinese readers, this project also displays prediction results in `万元人民币 / 10k RMB`.
 - The conversion uses a fixed showcase assumption: `1 USD = 6.6 RMB`.
 - This is only for project demonstration, not real-time exchange-rate calculation.
+
+Input unit note:
+
+- Users can enter income as annual/monthly USD or RMB.
+- The app converts it into the model's required `MedInc` unit before prediction.
+- Changing the display/input unit does not break the model because the conversion happens before inference.
 
 ## Current Result / 当前结果
 
