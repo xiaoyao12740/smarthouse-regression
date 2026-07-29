@@ -1,0 +1,56 @@
+{
+  "MedInc": {
+    "zh_name": "居民收入中位数",
+    "en_name": "Median income",
+    "description_zh": "区域内居民收入中位数，通常是房价的重要影响因素。",
+    "description_en": "Median income in the area, often one of the strongest price signals."
+  },
+  "HouseAge": {
+    "zh_name": "房屋年龄",
+    "en_name": "House age",
+    "description_zh": "区域内房屋年龄中位数。",
+    "description_en": "Median house age in the area."
+  },
+  "AveRooms": {
+    "zh_name": "平均房间数",
+    "en_name": "Average rooms",
+    "description_zh": "每户平均房间数量。",
+    "description_en": "Average number of rooms per household."
+  },
+  "AveBedrms": {
+    "zh_name": "平均卧室数",
+    "en_name": "Average bedrooms",
+    "description_zh": "每户平均卧室数量。",
+    "description_en": "Average number of bedrooms per household."
+  },
+  "Population": {
+    "zh_name": "区域人口",
+    "en_name": "Population",
+    "description_zh": "该区域人口数量。",
+    "description_en": "Population in the area."
+  },
+  "AveOccup": {
+    "zh_name": "平均居住人数",
+    "en_name": "Average occupancy",
+    "description_zh": "每户平均居住人数。",
+    "description_en": "Average number of occupants per household."
+  },
+  "Latitude": {
+    "zh_name": "纬度",
+    "en_name": "Latitude",
+    "description_zh": "房屋所在区域纬度。",
+    "description_en": "Latitude of the area."
+  },
+  "Longitude": {
+    "zh_name": "经度",
+    "en_name": "Longitude",
+    "description_zh": "房屋所在区域经度。",
+    "description_en": "Longitude of the area."
+  },
+  "median_house_value": {
+    "zh_name": "房价中位数",
+    "en_name": "Median house value",
+    "description_zh": "模型要预测的目标值，单位为十万美元。",
+    "description_en": "Target value predicted by the model, measured in units of 100,000 USD."
+  }
+}
