@@ -1,12 +1,16 @@
-# Experiment Record / 实验记录
+# Experiment Record
 
-## Goal / 目标
+## Goal
 
 补齐传统机器学习中的第二类核心任务：回归预测。
 
 Complete the second core task in classical machine learning: regression prediction.
 
-## Dataset / 数据集
+This experiment focuses on turning a housing-price regression problem into a reproducible project, including dataset preparation, model training, metric comparison, prediction export, and a local web interface.
+
+本实验重点不是只训练一个模型，而是把房价回归任务整理成可复现的工程项目，包括数据准备、模型训练、指标对比、预测导出和本地网页演示。
+
+## Dataset
 
 当前使用 California Housing 数据集。目标列为：
 
@@ -16,15 +20,13 @@ The current dataset is California Housing. Target column:
 median_house_value
 ```
 
-它表示区域房价中位数。这个数据集适合学习特征工程、回归误差和模型对比。
+It represents median house value in a California block group. The dataset is suitable for learning feature engineering, regression errors, model comparison, and the difference between model units and user-facing business units.
 
-It represents median house value. The dataset is suitable for learning feature engineering, regression errors, and model comparison.
+它表示加州街区组层面的房价中位数。该数据集适合用于学习特征工程、回归误差、模型对比，以及“模型内部单位”和“用户展示单位”之间的区别。
 
-## First Version / 第一版
+## First Version
 
 当前版本完成：
-
-Current version includes:
 
 - 自动准备房价数据 CSV
 - 自动生成预测样本 CSV
@@ -37,37 +39,57 @@ Current version includes:
 - 生成特征重要性图
 - 生成 HTML 报告
 
-## Metrics / 指标理解
+Current version includes:
 
-- MAE：平均差多少，适合直观理解误差。
-- RMSE：更重视大错误，适合检查严重偏差。
-- R2：解释能力，越接近 1 越好。
+- automatic housing CSV preparation
+- automatic sample prediction CSV generation
+- median imputation and scaling for numeric features
+- `random_forest` regression training
+- model persistence
+- prediction result export
+- MAE, RMSE, and R2 metrics
+- predicted-versus-actual visualization
+- feature importance visualization
+- HTML report generation
 
-- MAE: average absolute error.
-- RMSE: stronger penalty for large errors.
-- R2: explanatory power; closer to 1 is better.
+## Metrics
 
-## Price Unit / 价格单位
+MAE 表示平均绝对误差，适合直观理解“平均差多少”。RMSE 会更重视大误差，适合检查模型是否存在严重偏差。R2 表示解释能力，越接近 1 越好。
 
-California Housing 的目标值原始单位是 `十万美元 / 100k USD`。为了让中文读者更直观，本项目额外输出 `万元人民币 / 10k RMB`。
+MAE measures average absolute error and is easy to interpret. RMSE penalizes large errors more strongly, making it useful for spotting serious mistakes. R2 measures explanatory power; closer to 1 is better.
 
-换算假设：
+## Price Unit
+
+California Housing 的目标值原始单位是 `100k USD`。为了让中文读者更直观，本项目额外输出 `10k RMB` 展示值。
+
+The original target unit in California Housing is `100k USD`. For Chinese readers, the project also exports values in `10k RMB`.
+
+Fixed showcase assumption:
 
 ```text
 1 USD = 6.6 RMB
 ```
 
-这个汇率是作品展示用的固定假设，不是实时汇率。
+这个汇率是作品展示用的固定假设，不是实时汇率，也不构成任何金融建议。
 
-The original target unit is `100,000 USD`. For Chinese readers, the project also exports `10,000 RMB` values using a fixed showcase assumption:
+This exchange rate is a fixed showcase assumption. It is not a real-time exchange rate and should not be treated as financial advice.
 
-```text
-1 USD = 6.6 RMB
-```
+## Model Comparison
 
-## Next Steps / 下一步
+Random Forest performs best in the current comparison. It reaches a much higher R2 than Linear Regression and Ridge Regression while keeping the optimized model file small enough for local deployment.
 
-- 增加 Streamlit 交互页面
-- 增加模型版本记录
-- 增加自动模型比较
-- 增加更贴近业务的中文字段解释
+当前对比中 Random Forest 表现最好。它的 R2 明显高于 Linear Regression 和 Ridge Regression，同时优化后的模型文件仍然足够小，适合本地部署。
+
+## Next Steps
+
+- Add richer sample records for more realistic demos.
+- Add optional cross-validation for more stable evaluation.
+- Add screenshots or GIFs for GitHub presentation.
+- Replace fixed exchange-rate display with configurable presentation settings if the project becomes production-oriented.
+
+后续可继续改进：
+
+- 增加更贴近真实演示场景的样本记录
+- 增加可选交叉验证，让评估更稳定
+- 为 GitHub 展示补充截图或 GIF
+- 如果项目转向生产用途，将固定汇率改为可配置展示项
