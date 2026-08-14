@@ -156,6 +156,13 @@ docker build -t smarthouse-regression .
 docker run --rm -p 8502:8501 smarthouse-regression
 ```
 
+Published image / 已发布镜像：
+
+```powershell
+docker pull ghcr.io/xiaoyao12740/smarthouse-regression:v1.0.0
+docker run --rm -p 8502:8501 ghcr.io/xiaoyao12740/smarthouse-regression:v1.0.0
+```
+
 The container listens on `8501` internally and maps to local port `8502` to avoid conflicts with other local ML demos.
 
 容器内部监听 `8501`，本地映射到 `8502`，这样可以避免和其他 Streamlit 示例项目端口冲突。
